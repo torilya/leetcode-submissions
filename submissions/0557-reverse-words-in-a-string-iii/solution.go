@@ -1,25 +1,25 @@
-import 
-(
-    "fmt"
-    "strings"
-)
+func reverse(bytes []byte) {
+	bytesLen := len(bytes)
+
+	for i := 0; i < bytesLen/2; i++ {
+		bytes[i], bytes[bytesLen-1-i] = bytes[bytesLen-1-i], bytes[i]
+	}
+}
 
 func reverseWords(s string) string {
-    words := strings.Split(s, " ")
-    var reversedWordsStr string
+	bytes := []byte(s)
+	wordStartIndex := 0
 
-    for i, word := range words {
-        runes := []rune(word)
+	for i, r := range bytes {
+		if r == ' ' {
+			reverse(bytes[wordStartIndex:i])
 
-        for j := len(runes)-1; j >= 0; j-- {
-            reversedWordsStr = fmt.Sprintf("%s%c", reversedWordsStr, runes[j])
-        }
+            wordStartIndex = i + 1
+		}
+	}
 
-        if i < len(words)-1 {
-            reversedWordsStr = fmt.Sprintf("%s ", reversedWordsStr)
-        }
-    }
+	reverse(bytes[wordStartIndex : len(bytes)])
 
-    return reversedWordsStr
+	return string(bytes)
 }
 
