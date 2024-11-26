@@ -1,26 +1,19 @@
 func maxDistToClosest(seats []int) int {
-    seatsLen := len(seats)
-	var anchor int
+	prev := -1
 	var distToClosestMax int
 
-	for i := 1; i < seatsLen; i++ {
-		if seats[i-1] > seats[i] {
-			anchor = i
-		}
-
-		if seats[i-1] < seats[i] {
-			if anchor == 0 {
+	for i, seat := range seats {
+		if seat == 1 {
+			if prev == -1 {
 				distToClosestMax = i
 			} else {
-				distToClosestMax = max(distToClosestMax, (len(seats[anchor:i])+1)/2)
+				distToClosestMax = max(distToClosestMax, (i-prev)/2)
 			}
-		}
 
-		if i == seatsLen-1 && seats[i] == 0 {
-			distToClosestMax = max(distToClosestMax, len(seats[anchor:]))
+            prev = i
 		}
 	}
 
-	return distToClosestMax
+	return max(distToClosestMax, len(seats)-prev-1)
 }
 
